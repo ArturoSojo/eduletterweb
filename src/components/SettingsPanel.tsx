@@ -7,8 +7,6 @@ import { Slider } from './ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Badge } from './ui/badge';
 
 interface SettingsPanelProps {
   onClose: () => void;
@@ -52,7 +50,9 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
     setSettings(prev => ({
       ...prev,
       [section]: {
-        ...prev[section as keyof typeof prev],
+        ...((typeof prev[section as keyof typeof prev] === 'object' && prev[section as keyof typeof prev] !== null)
+          ? (prev[section as keyof typeof prev] as Record<string, any>)
+          : {}),
         [key]: value
       }
     }));

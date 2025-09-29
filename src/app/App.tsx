@@ -1,6 +1,8 @@
-﻿import { useEffect, useState } from 'react';
+﻿// src/app/App.tsx
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AppProviders } from './providers/AppProviders';
+
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Home from '@/pages/Home';
@@ -12,63 +14,55 @@ import Library from '@/pages/Library';
 import Profile from '@/pages/Profile';
 import Premium from '@/pages/Premium';
 import NotFound from '@/pages/NotFound';
+
 import OnboardingFlow from '@/components/OnboardingFlow';
 import PremiumModal from '@/components/PremiumModal';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
-import { ExperienceView, OnboardingPreferences, useLibraryExperience } from '@/features/library/store/useLibraryExperience';
+
+import {
+  type ExperienceView,
+  type OnboardingPreferences,
+  useLibraryExperience,
+} from '@/features/library/store/useLibraryExperience';
 import { useAppStore } from '@/store/app.store';
 
 function AppShell() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const {
-    activeView,
-    setActiveView,
-    isPremium,
-    showPremiumModal,
-    closePremiumModal,
-    upgradeToPremium,
-    openPremiumModal,
-    selectedBook,
-    setUserPreferences
-  } = useLibraryExperience((state) => ({
-    activeView: state.activeView,
-    setActiveView: state.setActiveView,
-    isPremium: state.isPremium,
-    showPremiumModal: state.showPremiumModal,
-    closePremiumModal: state.closePremiumModal,
-    upgradeToPremium: state.upgradeToPremium,
-    openPremiumModal: state.openPremiumModal,
-    selectedBook: state.selectedBook,
-    setUserPreferences: state.setUserPreferences
-  }));
+
+  // --- Selecciones separadas de Zustand (evita snapshots nuevos en cada render)
+  const activeView         = useLibraryExperience((s) => s.activeView);
+  const setActiveView      = useLibraryExperience((s) => s.setActiveView);
+  const isPremium          = useLibraryExperience((s) => s.isPremium);
+  const showPremiumModal   = useLibraryExperience((s) => s.showPremiumModal);
+  const closePremiumModal  = useLibraryExperience((s) => s.closePremiumModal);
+  const upgradeToPremium   = useLibraryExperience((s) => s.upgradeToPremium);
+  const openPremiumModal   = useLibraryExperience((s) => s.openPremiumModal);
+  const selectedBook       = useLibraryExperience((s) => s.selectedBook);
+  const setUserPreferences = useLibraryExperience((s) => s.setUserPreferences);
+
   const setTheme = useAppStore((state) => state.setTheme);
 
+  // Primera visita → Onboarding
   useEffect(() => {
     const hasVisited = localStorage.getItem('eduletter_visited');
     setShowOnboarding(!hasVisited);
   }, []);
 
+  // URL -> estado (sin dependencia de activeView para evitar doble ejecución)
   useEffect(() => {
     const path = location.pathname;
-    let derivedView: ExperienceView = 'library';
+    let derivedView: ExperienceView =
+      path.startsWith('/reader')  ? 'reader'  :
+      path.startsWith('/audio')   ? 'audio'   :
+      path.startsWith('/profile') ? 'settings':
+      path.startsWith('/library') ? 'library' :
+      'library';
 
-    if (path.startsWith('/reader')) {
-      derivedView = 'reader';
-    } else if (path.startsWith('/audio')) {
-      derivedView = 'audio';
-    } else if (path.startsWith('/profile')) {
-      derivedView = 'settings';
-    } else if (path.startsWith('/library')) {
-      derivedView = 'library';
-    }
-
-    if (derivedView !== activeView) {
-      setActiveView(derivedView);
-    }
-  }, [location.pathname, activeView, setActiveView]);
+    setActiveView(derivedView);
+  }, [location.pathname, setActiveView]);
 
   const handleOnboardingComplete = (preferences: OnboardingPreferences) => {
     setUserPreferences(preferences);
@@ -76,13 +70,9 @@ function AppShell() {
     localStorage.setItem('eduletter_visited', 'true');
     setShowOnboarding(false);
 
-    if (preferences.theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', preferences.theme === 'dark');
 
-    toast.success('Configuracion guardada! Bienvenido a Eduletter!');
+    toast.success('¡Configuración guardada! Bienvenido a Eduletter 🎉');
     navigate('/library');
   };
 
@@ -94,23 +84,28 @@ function AppShell() {
     }
   };
 
+  // Navegación segura (no repite navegación al mismo path)
+  const safeNav = (to: string) => {
+    if (location.pathname !== to) navigate(to);
+  };
+
   const handleViewChange = (view: ExperienceView) => {
     if (view === 'reader') {
       if (!selectedBook) {
         toast.error('Selecciona un libro desde tu biblioteca');
         return;
       }
-      navigate(`/reader/${selectedBook.id}`);
+      safeNav(`/reader/${selectedBook.id}`);
     } else if (view === 'audio') {
       if (!selectedBook || !selectedBook.hasAudio) {
         toast.error('Elige un libro con audio disponible');
         return;
       }
-      navigate(`/audio/${selectedBook.id}`);
+      safeNav(`/audio/${selectedBook.id}`);
     } else if (view === 'settings') {
-      navigate('/profile');
+      safeNav('/profile');
     } else {
-      navigate('/library');
+      safeNav('/library');
     }
 
     setActiveView(view);
@@ -133,6 +128,7 @@ function AppShell() {
         isPremium={isPremium}
         onPremiumClick={handlePremiumClick}
       />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
@@ -144,15 +140,18 @@ function AppShell() {
         <Route path="/premium" element={<Premium />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
       <Footer />
+
       <PremiumModal
         isOpen={showPremiumModal}
         onClose={closePremiumModal}
         onUpgrade={() => {
           upgradeToPremium();
-          toast.success('Bienvenido a Eduletter Premium!');
+          toast.success('¡Bienvenido a Eduletter Premium! 🎉');
         }}
       />
+
       <Toaster position="top-right" />
     </>
   );

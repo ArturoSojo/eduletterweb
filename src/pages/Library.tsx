@@ -1,58 +1,54 @@
-﻿import { useState } from 'react';
+﻿// src/pages/Library.tsx
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BookLibrary from '@/components/BookLibrary';
 import AIPanel from '@/components/AIPanel';
 import ReadingStats from '@/components/ReadingStats';
-import { Book, useLibraryExperience } from '@/features/library/store/useLibraryExperience';
+import { type Book, useLibraryExperience } from '@/features/library/store/useLibraryExperience';
 import { toast } from 'sonner';
 
 export default function Library() {
   const navigate = useNavigate();
   const [panel, setPanel] = useState<'library' | 'ai' | 'stats'>('library');
-  const {
-    isPremium,
-    setSelectedBook,
-    openPremiumModal,
-    setActiveView,
-    selectedBook
-  } = useLibraryExperience((state) => ({
-    isPremium: state.isPremium,
-    setSelectedBook: state.setSelectedBook,
-    openPremiumModal: state.openPremiumModal,
-    setActiveView: state.setActiveView,
-    selectedBook: state.selectedBook
-  }));
 
-  const handleBookSelect = (book: Book) => {
+  // 🚫 Evita devolver un objeto desde el selector (causa snapshots distintos)
+  const isPremium         = useLibraryExperience((s) => s.isPremium);
+  const setSelectedBook   = useLibraryExperience((s) => s.setSelectedBook);
+  const openPremiumModal  = useLibraryExperience((s) => s.openPremiumModal);
+  const setActiveView     = useLibraryExperience((s) => s.setActiveView);
+  const selectedBook      = useLibraryExperience((s) => s.selectedBook);
+
+  const handleBookSelect = useCallback((book: Book) => {
     if (book.isPremium && !isPremium) {
       openPremiumModal();
-      toast.error('Este libro requiere suscripcion Premium');
+      toast.error('Este libro requiere suscripción Premium');
       return;
     }
-
     setSelectedBook(book);
-    setActiveView('reader');
-    navigate(`/reader/${book.id}`);
+    setActiveView('reader');         // solo actualiza estado si cambia internamente
+    if (location.pathname !== `/reader/${book.id}`) {
+      navigate(`/reader/${book.id}`);
+    }
     toast.success(`Abriendo "${book.title}"`);
-  };
+  }, [isPremium, openPremiumModal, setSelectedBook, setActiveView, navigate]);
 
-  const handlePlayAudio = (book: Book) => {
+  const handlePlayAudio = useCallback((book: Book) => {
     if (book.isPremium && !isPremium) {
       openPremiumModal();
-      toast.error('El audio de este libro requiere suscripcion Premium');
+      toast.error('El audio de este libro requiere suscripción Premium');
       return;
     }
-
     if (!book.hasAudio) {
-      toast.error('Este libro no tiene version de audio disponible');
+      toast.error('Este libro no tiene versión de audio disponible');
       return;
     }
-
     setSelectedBook(book);
     setActiveView('audio');
-    navigate(`/audio/${book.id}`);
+    if (location.pathname !== `/audio/${book.id}`) {
+      navigate(`/audio/${book.id}`);
+    }
     toast.success(`Reproduciendo "${book.title}"`);
-  };
+  }, [isPremium, openPremiumModal, setSelectedBook, setActiveView, navigate]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -62,9 +58,7 @@ export default function Library() {
             <button
               onClick={() => setPanel('ai')}
               className={`px-3 py-1 rounded-md text-sm transition-colors ${
-                panel === 'ai'
-                  ? 'bg-eduletter-accent text-white'
-                  : 'hover:bg-muted'
+                panel === 'ai' ? 'bg-eduletter-accent text-white' : 'hover:bg-muted'
               }`}
             >
               IA Premium
@@ -72,19 +66,15 @@ export default function Library() {
             <button
               onClick={() => setPanel('stats')}
               className={`px-3 py-1 rounded-md text-sm transition-colors ${
-                panel === 'stats'
-                  ? 'bg-eduletter-accent text-white'
-                  : 'hover:bg-muted'
+                panel === 'stats' ? 'bg-eduletter-accent text-white' : 'hover:bg-muted'
               }`}
             >
-              Estadisticas
+              Estadísticas
             </button>
             <button
               onClick={() => setPanel('library')}
               className={`px-3 py-1 rounded-md text-sm transition-colors ${
-                panel === 'library'
-                  ? 'bg-eduletter-brand text-white'
-                  : 'hover:bg-muted'
+                panel === 'library' ? 'bg-eduletter-brand text-white' : 'hover:bg-muted'
               }`}
             >
               Biblioteca
@@ -103,7 +93,7 @@ export default function Library() {
         )}
         {panel === 'ai' && (
           <AIPanel
-            currentBook={selectedBook}
+            currentBook={selectedBook ?? undefined}
             isPremium={isPremium}
             onUpgrade={openPremiumModal}
           />

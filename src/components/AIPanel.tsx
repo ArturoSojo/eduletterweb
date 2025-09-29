@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Badge } from './ui/badge';
-import { motion } from 'motion/react';
 import { Textarea } from './ui/textarea';
 
 interface AIPanelProps {
@@ -139,11 +138,9 @@ export default function AIPanel({ currentBook, isPremium, onUpgrade }: AIPanelPr
           <TabsContent value="summary" className="space-y-4">
             <div className="grid gap-4">
               {summaries.map((summary, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                
                 >
                   <Card>
                     <CardHeader>
@@ -170,7 +167,7 @@ export default function AIPanel({ currentBook, isPremium, onUpgrade }: AIPanelPr
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </TabsContent>
@@ -186,9 +183,9 @@ export default function AIPanel({ currentBook, isPremium, onUpgrade }: AIPanelPr
                     <h4 className="font-semibold mb-4">Conceptos Principales</h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {conceptMap.mainConcepts.map((concept) => (
-                        <motion.div
+                        <div
                           key={concept.id}
-                          whileHover={{ scale: 1.05 }}
+                       
                           className="cursor-pointer"
                         >
                           <Card className="text-center p-4 hover:shadow-md transition-shadow">
@@ -197,7 +194,7 @@ export default function AIPanel({ currentBook, isPremium, onUpgrade }: AIPanelPr
                               {concept.connections.length} conexiones
                             </Badge>
                           </Card>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -228,11 +225,8 @@ export default function AIPanel({ currentBook, isPremium, onUpgrade }: AIPanelPr
                   <CardContent>
                     <div className="space-y-3">
                       {section.items.map((item, index) => (
-                        <motion.div
+                        <div
                           key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
                           className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
                         >
                           <div>
@@ -243,7 +237,7 @@ export default function AIPanel({ currentBook, isPremium, onUpgrade }: AIPanelPr
                             <Badge variant="secondary">{item.match}</Badge>
                             <Button size="sm" variant="outline">Ver</Button>
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </CardContent>

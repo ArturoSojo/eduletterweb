@@ -1,10 +1,12 @@
 import { Search, User, Settings, Crown } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import type { ExperienceView } from '@/features/library/store/useLibraryExperience';
+
 
 interface HeaderProps {
-  currentView: string;
-  setCurrentView: (view: string) => void;
+  currentView: ExperienceView;
+  setCurrentView: (view: ExperienceView) => void;
   isPremium: boolean;
   onPremiumClick: () => void;
 }

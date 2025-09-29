@@ -2,7 +2,7 @@ import { TrendingUp, Clock, BookOpen, Target, Award, Zap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
-import { motion } from 'motion/react';
+
 
 interface ReadingStatsProps {
   isPremium: boolean;
@@ -46,10 +46,7 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
 
         {/* Estadísticas principales */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <div
           >
             <Card>
               <CardContent className="p-6">
@@ -64,12 +61,9 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+          <div
           >
             <Card>
               <CardContent className="p-6">
@@ -84,12 +78,9 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+          <div
           >
             <Card>
               <CardContent className="p-6">
@@ -104,12 +95,9 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+          <div
           >
             <Card>
               <CardContent className="p-6">
@@ -124,7 +112,7 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -158,11 +146,8 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
             <CardContent>
               <div className="space-y-3">
                 {stats.genres.map((genre, index) => (
-                  <motion.div
+                  <div
                     key={genre.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 * index }}
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center space-x-3">
@@ -170,7 +155,7 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
                       <span>{genre.name}</span>
                     </div>
                     <Badge variant="secondary">{genre.count} libros</Badge>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </CardContent>
@@ -187,11 +172,8 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {achievements.map((achievement, index) => (
-                  <motion.div
+                  <div
                     key={achievement.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.1 * index }}
                     className={`flex items-center space-x-3 p-4 rounded-lg border ${
                       achievement.unlocked
                         ? 'bg-eduletter-accent/5 border-eduletter-accent/20'
@@ -219,7 +201,7 @@ export default function ReadingStats({ isPremium }: ReadingStatsProps) {
                         Desbloqueado
                       </Badge>
                     )}
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </CardContent>

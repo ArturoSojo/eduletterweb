@@ -5,7 +5,6 @@ import { Card, CardContent } from './ui/card';
 import { Slider } from './ui/slider';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { motion } from 'motion/react';
 
 interface Book {
   id: string;
@@ -27,7 +26,7 @@ export default function AudioPlayer({ book, onClose, onOpenReader }: AudioPlayer
   const [volume, setVolume] = useState([70]);
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [currentChapter, setCurrentChapter] = useState(1);
-  const intervalRef = useRef<NodeJS.Timeout>();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const chapters = [
     { id: 1, title: "Introducción al Arte Digital", duration: 547 },
@@ -129,9 +128,8 @@ export default function AudioPlayer({ book, onClose, onOpenReader }: AudioPlayer
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           {/* Cover Art */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+          <div
+            
             className="text-center mb-8"
           >
             <div className="relative mx-auto w-80 h-80 mb-6">
@@ -151,7 +149,7 @@ export default function AudioPlayer({ book, onClose, onOpenReader }: AudioPlayer
             <Badge variant="outline">
               Capítulo {currentChapter}: {currentChapterInfo?.title}
             </Badge>
-          </motion.div>
+          </div>
 
           {/* Player Controls */}
           <Card className="mb-6">
@@ -249,10 +247,9 @@ export default function AudioPlayer({ book, onClose, onOpenReader }: AudioPlayer
               <h3 className="font-semibold mb-4">Capítulos</h3>
               <div className="space-y-2">
                 {chapters.map((chapter) => (
-                  <motion.div
+                  <div
                     key={chapter.id}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                  
                   >
                     <Button
                       variant={currentChapter === chapter.id ? "default" : "ghost"}
@@ -275,7 +272,7 @@ export default function AudioPlayer({ book, onClose, onOpenReader }: AudioPlayer
                         </div>
                       )}
                     </Button>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </CardContent>

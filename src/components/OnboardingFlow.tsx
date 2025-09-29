@@ -3,7 +3,6 @@ import { ChevronRight, ChevronLeft, BookOpen, Headphones, Brain, Palette, Globe 
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
-import { motion, AnimatePresence } from 'motion/react';
 
 interface OnboardingFlowProps {
   onComplete: (preferences: OnboardingPreferences) => void;
@@ -172,10 +171,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {themes.map((theme) => (
-                <motion.div
-                  key={theme.id}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <div
                 >
                   <Card 
                     className={`cursor-pointer transition-all ${
@@ -190,7 +186,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                       <h3 className="font-semibold">{theme.name}</h3>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -201,10 +197,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {languages.map((language) => (
-                <motion.div
+                <div
                   key={language.id}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   <Card 
                     className={`cursor-pointer transition-all ${
@@ -219,7 +213,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                       <h3 className="font-semibold text-lg">{language.name}</h3>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -233,10 +227,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {interests.map((interest) => (
-                <motion.div
+                <div
                   key={interest}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   <Badge
                     variant={preferences.interests.includes(interest) ? "default" : "outline"}
@@ -249,7 +241,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                   >
                     {interest}
                   </Badge>
-                </motion.div>
+                </div>
               ))}
             </div>
             {preferences.interests.length > 0 && (
@@ -265,10 +257,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {readingGoals.map((goal) => (
-                <motion.div
+                <div
                   key={goal.id}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   <Card 
                     className={`cursor-pointer transition-all ${
@@ -284,7 +274,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                       <p className="text-sm text-muted-foreground">{goal.description}</p>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -295,10 +285,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {formats.map((format) => (
-                <motion.div
+                <div
                   key={format.id}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   <Card 
                     className={`cursor-pointer transition-all ${
@@ -317,7 +305,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                       <p className="text-sm text-muted-foreground">{format.description}</p>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -342,11 +330,9 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             </span>
           </div>
           <div className="w-full bg-muted rounded-full h-2">
-            <motion.div 
+            <div 
               className="bg-gradient-to-r from-eduletter-accent to-eduletter-accent-orange h-2 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-              transition={{ duration: 0.3 }}
+             
             />
           </div>
         </div>
@@ -354,13 +340,10 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         {/* Content */}
         <Card className="mb-8">
           <CardContent className="p-8">
-            <AnimatePresence mode="wait">
-              <motion.div
+        
+              <div
                 key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
+               
               >
                 <div className="text-center mb-8">
                   {(() => {
@@ -372,8 +355,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 </div>
                 
                 {renderStepContent()}
-              </motion.div>
-            </AnimatePresence>
+              </div>
           </CardContent>
         </Card>
 

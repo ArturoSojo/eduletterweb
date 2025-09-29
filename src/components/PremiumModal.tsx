@@ -3,7 +3,6 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
-import { motion } from 'motion/react';
 
 interface PremiumModalProps {
   isOpen: boolean;
@@ -84,10 +83,7 @@ export default function PremiumModal({ isOpen, onClose, onUpgrade }: PremiumModa
         <div className="space-y-8">
           {/* Hero Section */}
           <div className="text-center py-6">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
+            <div
             >
               <h3 className="text-lg text-muted-foreground mb-4">
                 Desbloquea el potencial completo de tu experiencia de lectura
@@ -106,17 +102,14 @@ export default function PremiumModal({ isOpen, onClose, onUpgrade }: PremiumModa
                   <span>7 días gratis</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
               >
                 <Card className="h-full hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
@@ -133,7 +126,7 @@ export default function PremiumModal({ isOpen, onClose, onUpgrade }: PremiumModa
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
 
@@ -142,11 +135,8 @@ export default function PremiumModal({ isOpen, onClose, onUpgrade }: PremiumModa
             <h3 className="text-xl font-semibold text-center mb-6">Elige tu plan</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {plans.map((plan, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
                 >
                   <Card className={`relative ${plan.popular ? 'border-2 border-gradient-to-r from-yellow-500 to-orange-500' : ''}`}>
                     {plan.popular && (
@@ -181,7 +171,7 @@ export default function PremiumModal({ isOpen, onClose, onUpgrade }: PremiumModa
                       </Button>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

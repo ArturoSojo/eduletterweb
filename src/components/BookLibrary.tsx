@@ -7,7 +7,7 @@ import { Progress } from './ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { ScrollArea } from './ui/scroll-area';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { motion } from 'motion/react';
+
 
 interface Book {
   id: string;
@@ -186,12 +186,7 @@ export default function BookLibrary({ onBookSelect, onPlayAudio, isPremium }: Bo
   const authors = Array.from(new Set(books.map(book => book.author)));
 
   const BookCard = ({ book, isCompact = false }: { book: Book; isCompact?: boolean }) => (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.2 }}
-      className={`group cursor-pointer ${isCompact ? 'min-w-32' : ''}`}
+    <div className={`group cursor-pointer ${isCompact ? 'min-w-32' : ''}`}
       onClick={() => {
         if (book.isPremium && !isPremium) return;
         onBookSelect(book);
@@ -301,7 +296,7 @@ export default function BookLibrary({ onBookSelect, onPlayAudio, isPremium }: Bo
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 
   const BookSection = ({ title, books, icon }: { title: string; books: Book[]; icon?: React.ReactNode }) => (

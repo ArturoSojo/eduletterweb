@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight, Settings, Bookmark, Play, Sun, Moon, Type } 
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Slider } from './ui/slider';
-import { motion, AnimatePresence } from 'motion/react';
 import { Badge } from './ui/badge';
 
 interface Book {
@@ -154,12 +153,9 @@ export default function BookReader({ book, onClose, onPlayAudio }: BookReaderPro
       </div>
 
       {/* Panel de configuración */}
-      <AnimatePresence>
+
         {showSettings && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+          <div
             className="sticky top-16 z-40 bg-background border-b"
           >
             <div className="container mx-auto px-4 py-4">
@@ -238,33 +234,16 @@ export default function BookReader({ book, onClose, onPlayAudio }: BookReaderPro
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+
 
       {/* Contenido principal */}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="relative perspective-1000">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentPage}
-                initial={{ 
-                  rotateY: flipDirection === 'next' ? 90 : -90,
-                  opacity: 0 
-                }}
-                animate={{ 
-                  rotateY: 0,
-                  opacity: 1 
-                }}
-                exit={{ 
-                  rotateY: flipDirection === 'next' ? -90 : 90,
-                  opacity: 0 
-                }}
-                transition={{ 
-                  duration: 0.6,
-                  ease: "easeInOut"
-                }}
+        
+              <div
                 className="transform-style-preserve-3d"
               >
                 <Card className={`min-h-[600px] ${getThemeClasses()} border-0 shadow-lg`}>
@@ -288,8 +267,8 @@ export default function BookReader({ book, onClose, onPlayAudio }: BookReaderPro
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
-            </AnimatePresence>
+              </div>
+     
           </div>
 
           {/* Controles de navegación */}

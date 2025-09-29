@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { app } from '@/services/firebase';
 
 interface AuthState {
   user: { uid: string; displayName: string | null } | null;
@@ -9,13 +11,21 @@ export function useAuth(): AuthState {
   const [state, setState] = useState<AuthState>({ user: null, loading: true });
 
   useEffect(() => {
-    // TODO: conectar con Firebase Auth
-    const timeout = setTimeout(() => {
-      setState({ user: null, loading: false });
-    }, 0);
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
+      if (firebaseUser) {
+        setState({
+          user: { uid: firebaseUser.uid, displayName: firebaseUser.displayName ?? null },
+          loading: false
+        });
+      } else {
+        setState({ user: null, loading: false });
+      }
+    });
 
-    return () => clearTimeout(timeout);
+    return unsubscribe;
   }, []);
 
   return state;
 }
+

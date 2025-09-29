@@ -1,26 +1,28 @@
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
+﻿import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLibraryExperience } from '@/features/library/store/useLibraryExperience';
 
 export default function Premium() {
+  const navigate = useNavigate();
+  const { openPremiumModal, isPremium } = useLibraryExperience((state) => ({
+    openPremiumModal: state.openPremiumModal,
+    isPremium: state.isPremium
+  }));
+
+  useEffect(() => {
+    if (isPremium) {
+      navigate('/library');
+      return;
+    }
+
+    openPremiumModal();
+  }, [openPremiumModal, isPremium, navigate]);
+
   return (
-    <Container component="main" sx={{ py: 8 }}>
-      <Stack spacing={4}>
-        <Box>
-          <Typography variant="h3" component="h1" gutterBottom>
-            Eduletter Premium
-          </Typography>
-          <Typography variant="body1">
-            Accede a resúmenes con IA, voces naturales, descargas extendidas y cero anuncios.
-          </Typography>
-        </Box>
-        <Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
-          <Button variant="contained" size="large">
-            Suscripción mensual · 7,25€
-          </Button>
-          <Button variant="outlined" size="large">
-            Suscripción anual · 78€
-          </Button>
-        </Stack>
-      </Stack>
-    </Container>
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <p className="text-muted-foreground">
+        Explora los beneficios de Eduletter Premium en la ventana emergente.
+      </p>
+    </div>
   );
 }

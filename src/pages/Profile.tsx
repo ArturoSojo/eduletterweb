@@ -1,14 +1,24 @@
-import { Container, Typography } from '@mui/material';
+﻿import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SettingsPanel from '@/components/SettingsPanel';
+import { useLibraryExperience } from '@/features/library/store/useLibraryExperience';
 
 export default function Profile() {
+  const navigate = useNavigate();
+  const setActiveView = useLibraryExperience((state) => state.setActiveView);
+
+  useEffect(() => {
+    setActiveView('settings');
+  }, [setActiveView]);
+
   return (
-    <Container component="main" sx={{ py: 8 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Perfil y ajustes
-      </Typography>
-      <Typography variant="body1">
-        Gestiona tu cuenta, preferencias de lectura y suscripciones desde esta sección.
-      </Typography>
-    </Container>
+    <div className="min-h-screen bg-background">
+      <SettingsPanel
+        onClose={() => {
+          setActiveView('library');
+          navigate('/library');
+        }}
+      />
+    </div>
   );
 }

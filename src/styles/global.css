@@ -1,36 +1,199 @@
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #1f2933;
-  background-color: #f5f7fa;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #2c3e50;
+  --card: #ffffff;
+  --card-foreground: #2c3e50;
+  --popover: #ffffff;
+  --popover-foreground: #2c3e50;
+  --primary: #3b4d5c;
+  --primary-foreground: #ffffff;
+  --secondary: #f8f9fa;
+  --secondary-foreground: #3b4d5c;
+  --muted: #f1f3f4;
+  --muted-foreground: #6c757d;
+  --accent: #e74c3c;
+  --accent-foreground: #ffffff;
+  --destructive: #dc3545;
+  --destructive-foreground: #ffffff;
+  --border: rgba(59, 77, 92, 0.1);
+  --input: transparent;
+  --input-background: #f8f9fa;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #3b4d5c;
+  --chart-1: #e74c3c;
+  --chart-2: #3498db;
+  --chart-3: #3b4d5c;
+  --chart-4: #f39c12;
+  --chart-5: #27ae60;
+  --radius: 0.5rem;
+  --sidebar: #f8f9fa;
+  --sidebar-foreground: #3b4d5c;
+  --sidebar-primary: #3b4d5c;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f3f4;
+  --sidebar-accent-foreground: #3b4d5c;
+  --sidebar-border: rgba(59, 77, 92, 0.1);
+  --sidebar-ring: #3b4d5c;
+  --eduletter-brand: #3b4d5c;
+  --eduletter-accent: #e74c3c;
+  --eduletter-accent-orange: #e67e22;
 }
 
-a {
-  font-weight: 500;
-  color: inherit;
-  text-decoration: none;
+.dark {
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+  --card: #2c3e50;
+  --card-foreground: #ffffff;
+  --popover: #2c3e50;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #2c3e50;
+  --secondary: #34495e;
+  --secondary-foreground: #ffffff;
+  --muted: #34495e;
+  --muted-foreground: #bdc3c7;
+  --accent: #e74c3c;
+  --accent-foreground: #ffffff;
+  --destructive: #e74c3c;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.05);
+  --input-background: #34495e;
+  --ring: #ffffff;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #e74c3c;
+  --chart-2: #3498db;
+  --chart-3: #ffffff;
+  --chart-4: #f39c12;
+  --chart-5: #27ae60;
+  --sidebar: #2c3e50;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #e74c3c;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #34495e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #ffffff;
+  --eduletter-brand: #3b4d5c;
+  --eduletter-accent: #e74c3c;
+  --eduletter-accent-orange: #e67e22;
 }
 
-a:hover {
-  text-decoration: underline;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-eduletter-brand: var(--eduletter-brand);
+  --color-eduletter-accent: var(--eduletter-accent);
+  --color-eduletter-accent-orange: var(--eduletter-accent-orange);
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: inherit;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
-* {
-  box-sizing: border-box;
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
 }
 
-img {
-  max-width: 100%;
-  display: block;
+html {
+  font-size: var(--font-size);
 }
